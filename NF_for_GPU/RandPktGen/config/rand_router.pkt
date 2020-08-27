@@ -1,0 +1,22 @@
+enable 0 range
+range 0 dst ip start 0.0.0.0
+range 0 dst ip min 0.0.0.0
+range 0 dst ip max 255.255.255.255
+range 0 dst ip inc 5.7.3.11
+range 0 dst mac start a0:36:9f:03:13:86
+range 0 dst mac min a0:36:9f:03:13:86
+range 0 dst mac max a0:36:9f:03:13:86
+range 0 dst mac inc 00:00:00:00:00:00
+range 0 dst port start 53
+range 0 dst port min 0
+range 0 dst port max 65000
+range 0 dst port inc 0
+range 0 src port start 53
+range 0 src port min 1
+range 0 src port max 65000
+range 0 src port inc 0
+range 0 src ip start 0.0.0.0
+range 0 src ip min 0.0.0.0
+range 0 src ip max 255.255.255.255
+range 0 src ip inc 7.11.5.3
+

@@ -1,0 +1,18 @@
+enable 0 range
+range 0 dst ip start 10.0.0.4
+range 0 dst ip min 10.0.0.4
+range 0 dst ip max 10.0.0.4
+range 0 dst ip inc 0.0.0.0
+range 0 dst mac start a0:36:9f:03:13:86
+range 0 dst mac min a0:36:9f:03:13:86
+range 0 dst mac max a0:36:9f:03:13:86
+range 0 dst mac inc 00:00:00:00:00:00
+range 0 dst port start 53
+range 0 dst port min 0
+range 0 dst port max 65000
+range 0 dst port inc 0
+range 0 src ip start 10.0.0.3
+range 0 src ip min 10.0.0.3
+range 0 src ip max 10.0.0.3
+range 0 src ip inc 0.0.0.0
+set 0 pattern none

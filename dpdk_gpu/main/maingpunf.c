@@ -8,11 +8,11 @@ int main(int argc, char ** argv)
 	set_gpu_mem_for_dpdk();
 
 #if ROUTER
-	initialize_router(1);
+	initialize_router();
 #elif NIDS
-	initialize_nids(1);
+	initialize_nids();
 #elif IPSEC
-	initialize_ipsec(1);
+	initialize_ipsec();
 #endif
 
 	dpdk_handler(argc, argv);

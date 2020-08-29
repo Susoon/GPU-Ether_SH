@@ -56,8 +56,8 @@ __device__ void d_interface_lookup(uint32_t *IP_lookup, short *d_mtable, short *
 /*********************************************************************** 
  * GPU_NF#1: Router (18.09.17)
  ***********************************************************************/
-__global__ void router(unsigned char * pktBuf, int *nbBoard, int *statusBoard, short* d_mtable, short* d_stable, int* pkt_cnt, int chain_seq)
-{
+__global__ void router(unsigned char * pktBuf, int *nbBoard, int *statusBoard, short* d_mtable, short* d_stable, int* pkt_cnt)
+{ 
 
 	__shared__ uint8_t chapter_idx;
 	unsigned char * buf = NULL;
@@ -433,7 +433,7 @@ void compute_routes()
 }
 
 extern "C"
-void initialize_router(int chain_seq)
+void initialize_router(void)
 {
 	// CKJUNG, 18.08.22 [NF #1:IP lookup] Setting RIB /////////////////////////////////////////////////////
 	//short *d_mtable;
@@ -489,7 +489,7 @@ void initialize_router(int chain_seq)
 	ASSERT_CUDA(cudaStreamCreateWithFlags(&cuda_stream2,cudaStreamNonBlocking));
 
 	printf("NF#1: Router\n");
-	router<<< ROUTER_TB_NUM, ROUTER_T_NUM, 0, cuda_stream2 >>> (pktBuf, nbBoard, statusBoard, d_mtable, d_stable, pkt_cnt, chain_seq);
+	router<<< ROUTER_TB_NUM, ROUTER_T_NUM, 0, cuda_stream2 >>> (pktBuf, nbBoard, statusBoard, d_mtable, d_stable, pkt_cnt);
 
 	START_GRN
 	printf("[Done]____[Initialize]__NF #1__Router__\n");

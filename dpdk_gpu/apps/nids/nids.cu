@@ -126,7 +126,7 @@ __global__ void nids(unsigned char * pktBuf, int *nbBoard, int *statusBoard, int
 	// ~CKJUNG, ---------------------------------------------------------- 
 
 extern "C"
-void initialize_nids(int chain_seq)
+void initialize_nids(void)
 {
 #if 1
 	// CKJUNG, 19.03.22 [NF #3: NIDS] Setting DST TRIEs, Failures, Outputs /////////////////////////

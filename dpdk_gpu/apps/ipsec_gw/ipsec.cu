@@ -464,7 +464,7 @@ void KeyExpansion(unsigned char* key, unsigned int* w) {
 }                                                                                                            
 
 extern "C"
-void initialize_ipsec(int chain_seq)
+void initialize_ipsec(void)
 {
 
 	// CKJUNG, 18.10.25 [NF #2: IPSec] Setting initial_counter, key /////////////////////////

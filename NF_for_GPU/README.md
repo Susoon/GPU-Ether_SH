@@ -1,24 +1,84 @@
-# NF Evaluation for GPU
-
-* GPU를 위한 NF코드
-* ipsec\_gw : IPSec Gateway 코드
-	* 수정 필요
-* nids : NIDS 코드
-* router : Router 코드
-* lib : NF들이 사용하는 헤더파일과 input 파일들
-* DPDK : DPDK와 함께 사용된 NF 파일들
-	* 위의 폴더들이 내장되어 있다.
-* GPU\-Ether : GPU-Ether와 함께 사용된 NF 파일들
-	* 위의 폴더들이 내장되어 있다.
-* RandPktGen : 각 NF를 위한 pktgen의 랜덤패킷 전송을 위한 configure 파일과 sh 파일
+# NF Evaluation codes for GPU
 
 ---
-## 사용법
+## Description
 
-* RandPktGen 
-	* 내부의 파일과 폴더들을 모두 pktgen폴더에 옮긴뒤 sh파일을 실행
-* NF 코드
-	* tx\_kernel의 extract\_buf함수의 app\_idx 인수를 1이아닌 2로 변경
-	* main함수에서 initialize\_\(NF명\)\(\(Mempool변수명\), \(pkt count 배열 변수명\),1\)을 호출
-		* e.g.) initialize\_router(d\_mempool, pkt\_cnt, 1);
+* This repository has code files that are used to evaluate NF performance in GPU.
+* There are three NF codes and four configure files in this repo.
+* Thread numbers of kernels that are used for each NF can be differ because of packet size.
+
+---
+### Router
+
+* DIR\-24\-8\-BASIC algorithm is adopted.
+* For all packet sizes, same number of threads are used.
+	* One thread per One packet.
+* The performance is the same as the forwarding rate for DPDK and GPU\-Ether.
+
+---
+### NIDS
+
+* NIDS is implemented based on the codes from snort.
+* For each packet sizes, different number of threads used.
+	* The number of threads used in each packet sizes is recoreded in pkt\_data.h.
+* The performance is the same as the forwarding rate for DPDK and GPU\-Ether.
+
+---
+### IPSec gateway
+
+* AES 128bit ver. and SHA1 are adopted.
+* For each packet sizes, different number of threads used.
+	* The number of threads used in each packet sizes is recoreded in pkt\_data.h.
+* The performance is the same as the forwarding rate for DPDK.
+	* This is because the forwarding rate of DPDK is lower than the maximum performance of IPSec gateway.
+* IPSec coupled to GPU-Ether showed lower performance than the forwarding rate.
+
+---
+### RandPktGen
+
+* There are four pktgen configure files in this directory.
+* Each configure file is for NFs and the forwarding evaluation.
+* default.pkt
+	* Configure for the forwarding.
+	* There are configures about setting source and destination ip and destination mac address.
+* router.pkt
+	* Configure for the router.
+	* It enable range mode of pktgen.
+	* This file allows users to randomly set the source and destination ip and port of the packet.
+		* If the port is set to inc 0, it is set randomly.
+	* In range mode, users have to set packet size in 2 ways when run pktgen.
+		* For range mode and for set mode.
+		* e.g.\)
+			* range 0 size start 64
+			* range 0 size min 64
+			* range 0 size max 64
+			* set 0 size 64
+* nids.pkt
+	* Configure for the nids.
+	* It enable range mode of pktgen.
+	* This file allows users to randomly set the destination port and payload of the packet.
+	* The way how to set packet size is same with router.pkt case.
+* ipsec.pkt
+	* Confiure for the IPSec gateway.
+	* It enable range mode of pktgen.
+	* This file allows users to randomly set all component of the packet except the mac address.
+	* The way how to set packet size is same with router.pkt case.
+	
+---
+## How to use
+
+* NF codes
+
+1. DPDK
+	* Call initialize initialize\_\(NF name\)\(\) in main function.
+		* e.g.\) initialize\_router\(\)
+
+2. GPU\-Ether
+	* Call initialize initialize\_\(NF name\)\(\(variable name of Mempool\), \(variable name of pkt count array\)\) in main function.
+		* e.g.\) initialize\_router\(d\_mempool, pkt\_cnt\)
+	* Change app\_idx parameter value of extract\_buf function in tx\_kernel 1 to 2.
+		* tx\_kernel function is in lib/core.cu.
+
+* RandPktGen
+	* Copy all files in the directory to pktgen directory and excute corresponding sh file.
 

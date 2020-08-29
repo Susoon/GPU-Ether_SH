@@ -153,6 +153,6 @@ void KeyExpansion(unsigned char* key, unsigned int* w);
 #define R3(v, w, x, y, z, i) z+=(((w|x)&y)|(w&x))+blk(i)+0x8f1bbcdc+rol(v,5);w=rol(w,30);                         
 #define R4(v, w, x, y, z, i) z+=(w^x^y)+blk(i)+0xca62c1d6+rol(v,5);w=rol(w,30);                                   
 extern "C"
-void initialize_ipsec(int chain_seq);
+void initialize_ipsec(void);
 
 #endif /* __IPSEC_H_ */

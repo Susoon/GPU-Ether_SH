@@ -1,6 +1,6 @@
 # DPDK Evaluation Source Code
 
-* 5 version of DPDK for Evaluation with GPU
+* 4 version of DPDK for Evaluation with GPU
 
 ---
 ## Component

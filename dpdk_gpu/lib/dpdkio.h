@@ -23,12 +23,35 @@
 l2p_t *l2p;
 
 static struct rte_eth_conf default_port_conf = {
+#if 0// RTE_VERSION <= RTE_VERSION_NUM(18, 5, 0, 0)  
+	.rxmode = {                                    
+		.mq_mode = ETH_MQ_RX_RSS,                    
+		.max_rx_pkt_len = RTE_ETHER_MAX_LEN,             
+		.split_hdr_size = 0,                         
+//		.ignore_offload_bitfield = 1,                
+		.offloads = (DEV_RX_OFFLOAD_QINQ_STRIP |      
+				DEV_RX_OFFLOAD_CHECKSUM),             
+	},                                             
+	.rx_adv_conf = {                               
+		.rss_conf = {                                
+			.rss_key = NULL,                           
+			.rss_hf = ETH_RSS_IP,                      
+		},                                           
+	},                                             
+	.txmode = {                                    
+		.mq_mode = ETH_MQ_TX_NONE,                   
+	},                                             
+#else                                            
 rxmode : {       
 		split_hdr_size : 0,
+#if 0//RTE_VERSION < RTE_VERSION_NUM(18, 11, 0, 0)  
+		.offloads = DEV_RX_OFFLOAD_CRC_STRIP,        
+#endif                                           
 	},                        
 txmode : {                                    
 mq_mode : ETH_MQ_TX_NONE,      
 	}, 
+#endif                       
 };  
 
 int launch_one_lcore(void *arg __rte_unused);
@@ -56,6 +79,7 @@ typedef struct ck_dpdk{
 	port_info_t info[RTE_MAX_LCORE];
 }ck_dpdk_t;
 
+/* Allocated the ck_dpdk structure for global use */
 ck_dpdk_t ck_dpdk; 
 
 void rte_timer_setup(void);

@@ -14,7 +14,8 @@
 #include "pkt_data.h"
 
 #define ONE_SEC (uint64_t)(1000*1000*1000)
-#define PKT_MONITORING 1
+#define RX_LOOP_CNT 1
+#define PTHREAD_CNT 1
 
 #define START_RED printf("\033[1;31m");
 #define START_GRN printf("\033[1;32m");
@@ -23,6 +24,12 @@
 #define END printf("\033[0m"); 
 
 #define MEGA 1000 * 1000
+
+#if POLL
+#define PRINT_V() { printf("POLLING VERSION\n");}
+#else
+#define PRINT_V() { printf("KERNEL LAUNCH VERSION\n");}
+#endif
 
 struct tunnelQ{
 	int rhead;

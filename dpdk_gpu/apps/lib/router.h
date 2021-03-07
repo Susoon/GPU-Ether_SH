@@ -49,7 +49,7 @@ void interface_lookup(uint32_t *IP_lookup, short int *ntables,unsigned short *in
 void compute_routes();
 
 extern "C"
-void initialize_router(void);
+void initialize_router(int chain_seq);
 
 
 

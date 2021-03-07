@@ -53,6 +53,12 @@
 
 #define NTOHS(n) (((((unsigned short)(n) & 0xFF)) << 8) | (((unsigned short)(n) & 0xFF00) >> 8))
 
+#if POLL
+#define LAUNCH 0
+#else
+#define LAUNCH 1
+#endif
+
 __device__ void print_gpu(unsigned char* buf, int idx);
 
 #endif

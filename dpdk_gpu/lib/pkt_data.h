@@ -8,8 +8,6 @@
 #define ONELINE 6
 
 #define IPSEC 0 
-#define ROUTER 0
-#define NIDS 0
 
 #define PKT_DATA_SIZE 60
 #define HEADROOM_SIZE 64
@@ -83,5 +81,7 @@
 
 #define PKT_BATCH_NUM (512 + RX_NB) 
 #define PKT_BATCH_SIZE (PKT_SIZE * PKT_BATCH_NUM)
+
+#define POLL 1
 
 #endif

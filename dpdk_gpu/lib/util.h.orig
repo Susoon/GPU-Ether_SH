@@ -1,0 +1,49 @@
+#ifndef __UTIL_H_
+#define __UTIL_H_
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <pthread.h>
+#include <sched.h>
+
+#include <rte_memory.h>
+#include <rte_common.h>
+#include <rte_eal.h>
+#include <rte_lcore.h>
+#include <rte_debug.h>
+#include <rte_per_lcore.h>
+#include <rte_mbuf.h>
+#include <rte_launch.h>
+#include <rte_ethdev.h>
+#include <rte_ether.h>
+#include "l2p.h"
+#include "sh_handler.h"
+#include "dpdk.h"
+
+#define ONELINE 6
+#define ONE_SEC (uint64_t)(1000*1000*1000)
+#define DUMP 0
+#define SWAP 1
+#define RX_LOOP_CNT 1
+#define PTHREAD_CNT 1
+
+#if 1
+struct tunnelQ{
+	uint16_t nb_rx;
+	uint16_t nb_swp;
+	uint16_t nb_tx;
+	unsigned char** ptrBuf;
+};
+#endif
+
+uint64_t monotonic_time(void);
+void swp_hdr(volatile unsigned char* ptr);
+void make_char_buf(volatile struct rte_mbuf **buf, volatile unsigned char **ptrBuf, uint16_t nb_rx);
+void swp_hdr_buf(volatile unsigned char **ptrBuf, uint16_t nb_rx);
+void *cpu_monitoring_loop(void *data);
+void print_cur_stat(double ring_size, const char *unit);
+void print_pkt(unsigned char *ptr);
+
+#endif
+

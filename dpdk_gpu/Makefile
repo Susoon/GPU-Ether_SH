@@ -35,7 +35,7 @@ BUILD = @echo $(counter) of $(T)
 endif
 
 
-all: dpdkIO dpdkGPU dpdkGPUONE dpdkGPUNF
+all: dpdk_forwarder dpdkIO dpdkGPU dpdkGPUONE dpdkGPUNF
 	@echo done
 
 #io compile
@@ -53,6 +53,26 @@ dpdkio.o: $(SRC_DIR)/dpdkio.c
 mainio.o: ./main/mainio.c
 	@gcc -w -o $@ -c $^ $(INC)  $(CFLAGS) $(LDFLAGS) $(LDFLAGS_SHARED) -ldl -pthread -lnuma
 	$(BUILD) mainio
+
+#forwarder compile
+dpdk_forwarder: util.o dpdk_forwarder.o forwarder.o mainforwarder.o
+	@g++ -o $@ -m64 -pthread \
+	$(CFLAGS) $^ $(INC) $(LDFLAGS_SHARED) 
+	$(BUILD) dpdk_forwarder
+	@mv *.o $(OBJ_DIR)
+
+dpdk_forwarder.o: $(SRC_DIR)/dpdk_forwarder.c
+	@gcc -w -m64 -pthread $(CFLAGS) $(LDFLAGS_SHARED) -o $@ -c $^ $(INC)
+	$(BUILD) dpdk_forwarder
+
+forwarder.o : $(SRC_DIR)/forwarder.c
+	@gcc -w -m64 -pthread \
+	$(CFLAGS) $(LDFLAGS_SHARED) -o $@ -c $^ $(INC)
+	$(BUILD) forwarder
+
+mainforwarder.o: ./main/mainforwarder.c
+	@gcc -w -o $@ -c $^ $(INC) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_SHARED) -ldl -pthread -lnuma
+	$(BUILD) mainforwarder
 
 #gpu compile
 dpdkGPU: master.o gpu_forwarder.o dpdk_gpu.o util.o maingpu.o
@@ -126,7 +146,7 @@ util.o : $(SRC_DIR)/util.c
 	$(BUILD) util
 
 clean:
-	@rm -f $(OBJ_DIR)/*.o ./*.o dpdkGPU dpdkIO dpdkGPUNF dpdkGPUONE  
+	@rm -f $(OBJ_DIR)/*.o ./*.o dpdkGPU dpdkIO dpdkGPUNF dpdkGPUONE dpdk_forwarder  
 	@echo clean
 else
 

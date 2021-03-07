@@ -28,7 +28,7 @@ struct portGroup{
 };
 
 extern "C"
-void initialize_nids(void);
+void initialize_nids(int chain_seq);
 
 __device__ int lookup2D(int* trie, int col, int row);
 __device__ int lookup1D(int* arr, int point); 

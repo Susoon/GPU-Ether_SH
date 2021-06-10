@@ -6,6 +6,11 @@
 * main : 각 dpdk버전에 해당하는 main 함수가 구현된 코드 파일
 * apps : NF 코드 파일
 
+* bashrc파일에 아래의 내용을 추가할것
+```
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+```
+
 ---
 ## 파일 구성
 1. src 폴더

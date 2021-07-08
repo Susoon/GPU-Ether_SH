@@ -1,6 +1,6 @@
 #include "util.h"
 
-#define GPU 0
+#define GPU 1
 
 //패킷 수가 카운트되어 저장된 변수들
 double gpu_recv;
